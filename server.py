@@ -1,7 +1,7 @@
-#! /usr/bin/env/ python3
+#! /usr/bin/env python3
 import socket
 
-UDP_IP = ""
+UDP_IP = "" #equivalent to IPADDR_ANY
 UDP_PORT = 13337
 
 sock = socket.socket(socket.AF_INET, #IP

@@ -1,4 +1,4 @@
-#! /usr/bin/env/ python3
+#! /usr/bin/env python3
 import socket
 
 UDP_IP = "192.168.245.129"
