@@ -7,4 +7,4 @@ sock = socket.socket(socket.AF_INET, #IP
 	socket.SOCK_DGRAM) #UDP
 
 while True:
-	sock.sendto(input("Message: "), (UDP_IP, UDP_PORT))
+	sock.sendto(bytes(input("Message: "), "utf-8"), (UDP_IP, UDP_PORT))
