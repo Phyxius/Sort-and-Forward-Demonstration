@@ -3,16 +3,17 @@ import binascii
 import struct
 from util import *
 
-PROTOCOL_HEADER_STRUCT_FORMAT = ">hhh"
+PROTOCOL_HEADER_STRUCT_FORMAT = ">HHH"
 PROTOCOL_HEADER = 0x09F9
 PROTOCOL_DATA_TYPES = { b'0001': "Text", b'0002': "Audio", b'0003': "Video", b'0004': "Other" }
 
 def read_protocol_packet(sock):
 	data, addr = sock.recvfrom(6, socket.MSG_PEEK)
 	#print("received")
-	header, datatype, length = struct.unpack(">hhh", data)
+	header, datatype, length = struct.unpack(PROTOCOL_HEADER_STRUCT_FORMAT, data)
 	if header != PROTOCOL_HEADER:
-		raise ConnectionError("Received invalid packet: Did not have proper protocol header (had '{}')".format(binascii.hexlify(header)))
+		sock.recv(2)
+		raise ConnectionError("Received invalid packet: Did not have proper protocol header (had '0x%0.2X')" % header)
 	payload = sock.recv(6 + length)[6:]
 	return (addr, datatype, payload)
 
