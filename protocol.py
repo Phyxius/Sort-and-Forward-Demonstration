@@ -8,7 +8,7 @@ PROTOCOL_DATA_TYPES = { b'0001': "Text", b'0002': "Audio", b'0003': "Video", b'0
 
 def read_protocol_packet(sock):
 	data, addr = sock.recvfrom(6, socket.MSG_PEEK)
-	print("received")
+	#print("received")
 	if bytes_to_short(data[:2]) != PROTOCOL_HEADER:
 		raise ConnectionError("Received invalid packet: Did not have proper protocol header (had '{}')".format(binascii.hexlify(header)))
 	datatype = bytes_to_short(data[2:4])#discard source address
