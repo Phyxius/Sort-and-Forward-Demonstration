@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
 import socket
 import binascii
+import sys
 
-UDP_IP = "" #equivalent to IPADDR_ANY
+UDP_IP = sys.argv[1] if len(sys.argv) > 1 else "" #equivalent to IPADDR_ANY
 UDP_PORT = 13337
 
 sock = socket.socket(socket.AF_INET, #IP
