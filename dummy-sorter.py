@@ -10,6 +10,8 @@ sock = socket.socket(socket.AF_INET, #IP
 	socket.SOCK_DGRAM) #UDP
 sock.bind((UDP_IP, UDP_PORT))
 
+print("Listening on {}:{}".format(UDP_IP, UDP_PORT))
+
 while True:
 	try:
 		source, datatype, payload = read_protocol_packet(sock)
