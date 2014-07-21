@@ -10,5 +10,8 @@ sock = socket.socket(socket.AF_INET, #IP
 sock.bind((UDP_IP, UDP_PORT))
 
 while True:
-	print(read_protocol_packet(sock))
+	try:
+		print(read_protocol_packet(sock))
+	except ConnectionError as e:
+		print(e)
 	

@@ -11,6 +11,6 @@ def read_protocol_packet(sock):
 	payload = socket.recvfrom(length)
 	return (addr, datatype, payload)
 
-def create_protocol_packet(datatype, payload):
+def create_protocol_packet(datatype, payload, protocol_header = PROTOCOL_HEADER):
 	payload_bytes = bytes(payload)
-	return sum(map(bytes, [ PROTOCOL_HEADER, datatype, htons(len(payload_bytes)), payload_bytes]))
+	return sum(map(bytes, [ protocol_header, datatype, htons(len(payload_bytes)), payload_bytes]))
