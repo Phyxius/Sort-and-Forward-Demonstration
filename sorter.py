@@ -21,6 +21,6 @@ while True:
 			source[0] + ":" + str(source[1]), datatype, len(payload)))
 		destination = FORWARD_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE[b"0004"]
 		print("\tForwarded to", destination)
-		client_sock.sendto(payload, (destination, 13337))
+		client_sock.sendto(payload, (destination, UDP_PORT))
 	except ConnectionError as e:
 		print(e)
