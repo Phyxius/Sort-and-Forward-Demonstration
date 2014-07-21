@@ -12,7 +12,7 @@ def read_protocol_packet(sock):
 	#print("received")
 	header, datatype, length = struct.unpack(PROTOCOL_HEADER_STRUCT_FORMAT, data)
 	if header != PROTOCOL_HEADER:
-		sock.recv(2)
+		sock.recv(1) #discard current packet
 		raise ConnectionError("Received invalid packet: Did not have proper protocol header (had '0x%0.2X')" % header)
 	payload = sock.recv(6 + length)[6:]
 	return (addr, datatype, payload)
