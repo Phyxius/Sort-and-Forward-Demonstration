@@ -5,7 +5,7 @@ from util import *
 
 PROTOCOL_HEADER_STRUCT_FORMAT = ">HHH"
 PROTOCOL_HEADER = 0x09F9
-PROTOCOL_DATA_TYPES = { b'0001': "Text", b'0002': "Audio", b'0003': "Video", b'0004': "Other" }
+PROTOCOL_DATA_TYPES = { 1: "Text", 2: "Audio", 3: "Video", 4: "Other" }
 
 def read_protocol_packet(sock):
 	data, addr = sock.recvfrom(6, socket.MSG_PEEK) #read first part of packet without allocating a large buffer or discarding the rest
