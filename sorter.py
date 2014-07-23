@@ -11,8 +11,15 @@ server_sock = socket.socket(socket.AF_INET, #IP
 	socket.SOCK_DGRAM) #UDP
 server_sock.bind((UDP_IP, UDP_PORT))
 
-client_sock = socket.socket(socket.AF_INET, #IP
-	socket.SOCK_DGRAM) #UDP
+#client_sock = socket.socket(socket.AF_INET, #IP
+	#socket.SOCK_DGRAM) #UDP
+
+SOCK_TABLE = dict()
+for key in FORWARD_TABLE:
+	sock = socket.socket(socket.AF_INET, #IP
+		socket.SOCK_DGRAM) #UDP
+	sock.connect((FORWARD_TABLE[key], UDP_PORT))
+	SOCK_TABLE[key] = sock
 
 while True:
 	try:
@@ -20,8 +27,8 @@ while True:
 		datatype = PROTOCOL_DATA_TYPES[datatype] if datatype in PROTOCOL_DATA_TYPES else datatype
 		print("Received packet from {} with datatype {} and payload length {}".format(
 			source[0] + ":" + str(source[1]), datatype, len(payload)))
-		destination = FORWARD_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE["Other"]
-		print("\tForwarded to", destination)
-		client_sock.sendto(payload, (destination, UDP_PORT))
+		destination = SOCK_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE["Other"]
+		print("\tForwarded to", FORWARD_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE["Other"])
+		destination.sendall(payload)
 	except ConnectionError as e:
 		print(e)

@@ -18,6 +18,9 @@ def read_protocol_packet(sock):
 	return (addr, datatype, payload)
 
 def create_protocol_packet(datatype, payload, protocol_header = PROTOCOL_HEADER):
-	payload_bytes = bytes(payload, "utf-8")
+	if payload is str:
+		payload_bytes = bytes(payload, "utf-8")
+	else:
+		payload_bytes = payload
 	return struct.pack(PROTOCOL_HEADER_STRUCT_FORMAT, 
 		protocol_header, datatype, len(payload_bytes)) + payload_bytes
