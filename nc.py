@@ -8,5 +8,5 @@ sock.bind(("", 13337))
 out = sys.stdout
 
 while True:
-	out.buffer.write(sock.recv(2**16))
+	out.buffer.write(sock.recvfrom(4096)[0])
 	out.flush()

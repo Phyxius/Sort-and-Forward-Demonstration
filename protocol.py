@@ -14,7 +14,7 @@ def read_protocol_packet(sock):
 	if header != PROTOCOL_HEADER:
 		sock.recv(1) #discard current packet
 		raise ConnectionError("Received invalid packet: Did not have proper protocol header (had '0x%0.2X')" % header)
-	payload = sock.recv(6 + length)[6:] #skip header
+	payload = sock.recv(length + 6)[6:] #skip header
 	return (addr, datatype, payload)
 
 def create_protocol_packet(datatype, payload, protocol_header = PROTOCOL_HEADER):
