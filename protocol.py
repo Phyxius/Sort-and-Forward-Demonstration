@@ -1,7 +1,6 @@
 import socket
 import binascii
 import struct
-from util import *
 
 PROTOCOL_HEADER_STRUCT_FORMAT = ">HHH"
 PROTOCOL_HEADER = 0x09F9 #cookie for you if you recognize this number
