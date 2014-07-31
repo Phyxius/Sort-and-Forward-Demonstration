@@ -3,52 +3,40 @@ import socket
 from protocol import *
 import sys
 import queue, threading
-
-def receive_packets(sock, type, q):
+FORWARD_TABLE = {
+	13337 : 0x11, #audio
+	13338 : 0x22, #video
+	13339 : 0x33, #text
+	13340 : 0x44  #auxiliary
+}
+def receive_packets(sock, type, q): #receive packets, encapsulate them, and queue them for retransmission
 	while True:
 		payload = sock.recv(2**16)
-		#print(payload)
 		q.put(create_protocol_packet(type, payload))
 
-UDP_IP = "sorter.local"
+UDP_IP = "sorter.local" #use local dns to resolve
 PROTOCOL_TAG = 1
 UDP_PORT = 13337
 NUM_TAGS = 4
 
 socks = list()
-#print("0")
-for i in range(NUM_TAGS):
+for i in range(NUM_TAGS): #create one socket per tag, on sequential ports starting at 13337
 	s = socket.socket(socket.AF_INET, #IP
-		socket.SOCK_DGRAM)
+		socket.SOCK_DGRAM) #UDP
 	s.bind(("", UDP_PORT + i))
 	socks.append(s)
-	#print(s)
-
-"""listen_sock = socket.socket(socket.AF_INET, #IP
-	socket.SOCK_DGRAM) #UDP
-listen_sock.bind(("", UDP_PORT))"""
-#print("1")
-send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #IP/UDP
 send_sock.connect((UDP_IP, UDP_PORT))
-#print("2")
 
-#log = open("forwarder_log", "wb")
 q = queue.Queue()
-for index, sock in enumerate(socks):
-	#print (str(sock))
-	t = threading.Thread(target = receive_packets, args = (sock, index + 1, q))
+tags = [ 0x11, 0x22, 0x33, 0x44 ]
+for index, sock in enumerate(socks): #create a receiving thread for each socket
+	t = threading.Thread(target = receive_packets, args = (sock, tags[i], q))
 	t.daemon = True
 	t.start()
-#print("3")
 while True:
-	"""payload = listen_sock.recv(2**16)
-	print("Received packet size", len(payload))
-	log.write(payload)
-	log.flush()
-	packet = create_protocol_packet(PROTOCOL_TAG, payload)"""
 	try:
-		#print("waiting")
-		packet = q.get(True, 2)
+		packet = q.get(True, 2) #block for 2 secs or until there is something to dequeue
 		print("Received packet size", len(packet) - 6)
 		send_sock.sendall(packet)
 	except queue.Empty:

@@ -1,9 +1,24 @@
 import socket
 import sys
 
+IDENTIFIERS = { 
+	"0x11" : "192.168.245.130", #audio
+	"0x22" : "192.168.245.131", #video
+	"0x33" : "192.168.245.132", #text
+	"0x44" : "192.168.245.133"  #auxiliary
+}
+
+
 sock = socket.socket(socket.AF_INET, #IP
 	socket.SOCK_DGRAM) #UDP
-sock.bind(("" if len(sys.argv) is 1 else sys.argv[1], 13337))
+LISTEN_IP = "" #aka IPADDR_ANY
+if len(sys.argv) > 1:
+	if sys.argv[1] in IDENTIFIERS:
+		LISTEN_IP = IDENTIFIERS[sys.argv[1]]
+	else:
+		LISTEN_IP = sys.argv[1]
+
+sock.bind((LISTEN_IP, 13337))
 
 out = sys.stdout
 

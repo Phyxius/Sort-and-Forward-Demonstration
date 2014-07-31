@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-x-terminal-emulator -e 'bash -c "python3 nc.py 192.168.245.132 | pv | buffer -s 100k -m 8m | vlc - "'
-x-terminal-emulator -e 'bash -c "python3 nc.py 192.168.245.131 | pv | buffer -s 500k -m 30m | vlc - --audio-visual visual --effect-list spectrum --no-visual-80-bands "'
-x-terminal-emulator -e 'bash -c "python3 nc.py 192.168.245.130 "'
-x-terminal-emulator -e 'bash -c "python3 nc.py 192.168.245.133"'
+x-terminal-emulator -e 'bash -c "python3 nc.py 0x11 | pv | buffer -s 500k -m 30m | avplay -"' #'audio'
+x-terminal-emulator -e 'bash -c "python3 nc.py 0x22 | pv | buffer -s 100k -m 8m | avplay -"' #video
+x-terminal-emulator -e 'bash -c "python3 nc.py 0x33"' #text
+x-terminal-emulator -e 'bash -c "python3 nc.py 0x44"' #auxiliary
