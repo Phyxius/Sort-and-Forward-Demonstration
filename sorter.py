@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import socket
 from protocol import *
 from util import *
