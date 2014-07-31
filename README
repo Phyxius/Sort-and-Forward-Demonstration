@@ -1,0 +1,74 @@
+Packet Sort-and-Forward Demo by Shea Polansky <env.laser@gmail.com>
+
+Created during my 2014 SEAP internship at SPAWAR Systems Pacific under
+Jayson Durham <jayson.durham@navy.mil>
+
+This project demonstrates sort-and-forward techniques using a custom cooperative
+tagging scheme by sending streams of bytes as UDP datagrams from an originating
+host (the 'server'), through a middle host (the 'sorter') and ending at a 
+receiving host (the 'receiver'). The basic demonstration consists of 3 networked
+Virtual Machines, with one acting in each role. The receiver has 4 NICs, 
+each with its own unique IP address. The server creates 4 streams of data, 
+audio, visual, text, and 'auxiliary' (demo: interactively input text, like an IM 
+program), packetizes them with tags based on content, and forwards them in a 
+single data stream to the sorter, which splits the stream and sends the 
+encapsulated data to its final destination. To run the demo, create the 3 
+Virtual Machines, replace the IP addresses in the various scripts with 
+corrected ones, and run <role>.sh on each VM, in the order of sorter.sh, 
+receiver.sh, and server.sh.
+
+The custom protocol created for this project is a Layer 5 protocol intended for 
+use with UDP/IP and with the following format:
+	-2 byte protocol header, defined to be 0x09F9
+	-2 byte content-type tag:
+		-0x11: audio
+		-0x22: video
+		-0x33: text
+		-0x44: other/auxiliary
+	-2 byte length
+	-up to (UDP_MAX_PAYLOAD_SIZE - 6) bytes of payload
+
+A brief explanation of each script included follows, with '*' denoting files
+used in the final demonstration:
+	-client.py: basic nc clone. Sends UDP datagrams read from STDIN, 1 per line,
+	to a specific IP/Port combo
+	-dummy-sorter.py: a dummy sorter; reads and prints descriptions of packets
+	in this projects custom protocol
+	-dummy-sorter-client.py: creates packets in our custom format by reading
+	the parameters from STDIN
+	-*forwarder.py: opens 4 sockets, starting on port 13337 and incrementing
+	by 1 for each following socket, and creates an asynchronous thread for each
+	one. The thread constantly polls the socket, packetizing data received and
+	queueing it for retransmission by the main thread.
+	-*nc.py: clone of nc created to address issues with nc sending ICMP Address
+	Unavailable messages for seemingly no reason
+	-pcat.py: unused, was going to be a pausable cat, but then I found out
+	about ^S and ^Q for pausing and resuming pipes, respectively
+	-*protocol.py: helper library that creates and decomposes packets in the 
+	custom prtocol format I created
+	-*receiver.sh: script to automatically launch the forwarding script, as well
+	as start the 4 data streams used in the demo
+	-server.py: simple UDP server that listesn on a given IP address and prints
+	info on the packet received
+	-setup.sh: VM deployment script designed for use with Xubuntu 14.04 LTS. 
+	Updates the system, uninstalls some unused software and installs 
+	software used in the demonstration. Needs to be run as root.
+	-*sorter.py: Receives packets, sorts them according to their content tag and
+	the corresponding entry in the forwarding table, and forwards to the 
+	destination.
+	-*sorter.sh: script to launch sorter.py
+	-util.py: contains helper methods. Currently only used by 
+	dummy-sorter-client.py 
+
+This project includes copyrighted media. See LICENSE for details.
+
+Use of the code contained in this work is governed by the license text included
+in the accompanying LICENSE file. A short summary of the license is as follows:
+	-For members of the United States Government, its sub-agencies, and any
+	organization acting on its behalf, this work is treated as PUBLICD OMAIN, 
+	and may be used, modified, remixed, redistributed, or packaged,	for any 
+	purpose without restriction.
+	-For all others, this work is licensed under the MIT License.
+	-In either case, this work is provided AS-IS, with NO WARRANTY, express or
+	implied, including, but not limited to, warranties of merchantability and
+	fitness for a particular purpose.
