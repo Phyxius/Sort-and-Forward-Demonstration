@@ -62,13 +62,6 @@ used in the final demonstration:
 
 This project includes copyrighted media. See LICENSE for details.
 
-Use of the code contained in this work is governed by the license text included
-in the accompanying LICENSE file. A short summary of the license is as follows:
-	-For members of the United States Government, its sub-agencies, and any
-	organization acting on its behalf, this work is treated as PUBLIC DOMAIN, 
-	and may be used, modified, remixed, redistributed, or packaged,	for any 
-	purpose without restriction.
-	-For all others, this work is licensed under the MIT License.
-	-In either case, this work is provided AS-IS, with NO WARRANTY, express or
-	implied, including, but not limited to, warranties of merchantability and
-	fitness for a particular purpose.
+Use of the code contained in this work is governed by the MIT license text 
+included in the accompanying LICENSE file. An exception to the second clause
+is made for those acting on behalf of the United States Government.
