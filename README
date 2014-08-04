@@ -25,8 +25,8 @@ use with UDP/IP and with the following format:
 		-0x22: video
 		-0x33: text
 		-0x44: other/auxiliary
-	-2 byte length
-	-up to (UDP_MAX_PAYLOAD_SIZE - 6) bytes of payload
+	-2 byte length, max of (UDP_MAX_PAYLOAD_SIZE - 6)
+	-(length) bytes of payload
 
 A brief explanation of each script included follows, with '*' denoting files
 used in the final demonstration:
