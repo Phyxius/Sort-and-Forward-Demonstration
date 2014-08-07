@@ -4,10 +4,10 @@ from protocol import *
 from util import *
 
 FORWARD_TABLE = { 
-	0x11 : "10.0.0.40", #audio
-	0x22 : "10.0.0.41", #video
-	0x33 : "10.0.0.42", #text
-	0x44 : "10.0.0.43"  #auxiliary
+	0x11 : "10.0.2.21", #audio
+	0x22 : "10.0.3.21", #video
+	0x33 : "10.0.4.21", #text
+	0x44 : "10.0.5.21"  #auxiliary
 }
 
 UDP_IP = "" #equivalent to IPADDR_ANY
