@@ -3,10 +3,10 @@ import socket
 import sys
 
 IDENTIFIERS = { 
-	"0x11" : "192.168.245.130", #audio
-	"0x22" : "192.168.245.131", #video
-	"0x33" : "192.168.245.132", #text
-	"0x44" : "192.168.245.133"  #auxiliary
+	"0x11" : "10.0.0.40", #audio
+	"0x22" : "10.0.0.41", #video
+	"0x33" : "10.0.0.42", #text
+	"0x44" : "10.0.0.43"  #auxiliary
 }
 
 

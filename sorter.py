@@ -4,10 +4,10 @@ from protocol import *
 from util import *
 
 FORWARD_TABLE = { 
-	0x11 : "192.168.245.130", #audio
-	0x22 : "192.168.245.131", #video
-	0x33 : "192.168.245.132", #text
-	0x44 : "192.168.245.133"  #auxiliary
+	0x11 : "10.0.0.40", #audio
+	0x22 : "10.0.0.41", #video
+	0x33 : "10.0.0.42", #text
+	0x44 : "10.0.0.43"  #auxiliary
 }
 
 UDP_IP = "" #equivalent to IPADDR_ANY
@@ -20,7 +20,8 @@ server_sock.bind((UDP_IP, UDP_PORT))
 log = open("sorter_log", "wb")
 
 SOCK_TABLE = dict()
-for key, value in enumerate(FORWARD_TABLE): #create sockets for each forward destination
+for key in FORWARD_TABLE: #create sockets for each forward destination
+	value = FORWARD_TABLE[key]
 	sock = socket.socket(socket.AF_INET, #IP
 		socket.SOCK_DGRAM) #UDP
 	sock.connect((value, UDP_PORT))

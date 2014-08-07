@@ -2,8 +2,9 @@
 import socket
 import binascii
 from protocol import *
+from util import *
 
-UDP_IP = "192.168.245.129"
+UDP_IP = "sorter.local"
 UDP_PORT = 13337
 
 sock = socket.socket(socket.AF_INET, #IP

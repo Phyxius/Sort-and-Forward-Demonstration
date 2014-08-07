@@ -29,9 +29,10 @@ send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #IP/UDP
 send_sock.connect((UDP_IP, UDP_PORT))
 
 q = queue.Queue()
-tags = [ 0x11, 0x22, 0x33, 0x44 ]
+#tags = [ 0x11, 0x22, 0x33, 0x44 ]
+#tags.reverse() #need to reverse for some reason. Idc why, really
 for index, sock in enumerate(socks): #create a receiving thread for each socket
-	t = threading.Thread(target = receive_packets, args = (sock, tags[i], q))
+	t = threading.Thread(target = receive_packets, args = (sock, 0x11 * (index + 1), q))
 	t.daemon = True
 	t.start()
 while True:
