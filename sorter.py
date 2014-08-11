@@ -32,7 +32,7 @@ while True:
 		source, datatype, payload = read_protocol_packet(server_sock)
 		print("Received packet from {} with datatype {} and payload length {}".format(
 			source[0] + ":" + str(source[1]), datatype, len(payload)))
-		destination = SOCK_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE[0x44]
+		destination = SOCK_TABLE[datatype] if datatype in SOCK_TABLE else SOC_TABLE[0x44]
 		print("\tForwarded to", FORWARD_TABLE[datatype] if datatype in FORWARD_TABLE else FORWARD_TABLE[0x44])
 		log.write(payload)
 		log.flush()
